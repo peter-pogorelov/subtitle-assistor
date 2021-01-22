@@ -1,0 +1,31 @@
+.text-area{
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 20pt;
+    -fx-hbar-policy: never;
+    -fx-vbar-policy: never;
+}
+
+
+.list-cell {
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 20pt;
+    -fx-alignment: center;
+}
+
+/*
+.list-cell:even{
+    -fx-background-color: white;
+}
+
+.list-cell:odd {
+    -fx-background-color: #8f8;
+}
+
+.list-cell:even:filled:selected {
+    -fx-text-fill: black;
+}
+
+.list-cell:odd:filled:selected {
+    -fx-text-fill: white;
+}
+*/
