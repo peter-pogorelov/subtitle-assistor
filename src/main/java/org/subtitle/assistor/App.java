@@ -6,22 +6,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.sql.SQLException;
-import java.util.ServiceLoader;
 
-import org.subtitle.assistor.dictionary.WordDictionary;
 import org.subtitle.assistor.dictionary.jap2eng.JMDict;
-import org.subtitle.assistor.sql.SQLConnection;
-import org.subtitle.assistor.sql.SQLiteConnectionsPool;
+import org.subtitle.assistor.sql.SQLiteConnectionPool;
 import org.subtitle.assistor.tokenize.JapaneseTokenizer;
-import org.subtitle.assistor.udp.UDPController;
+import org.subtitle.assistor.udp.UDPServer;
 
 /**
  * JavaFX App
@@ -30,8 +22,8 @@ import org.subtitle.assistor.udp.UDPController;
 public class App extends Application {
 
     private static Scene scene;
-    private static UDPController controller;
-    private static SQLiteConnectionsPool sqlController;
+    private static UDPServer controller;
+    private static SQLiteConnectionPool sqlController;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -47,7 +39,7 @@ public class App extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("subtitleflow.fxml"));
         Parent root = fxmlLoader.load();
         scene = new Scene(root, 640, 480);
-        controller = new UDPController(5005);
+        controller = new UDPServer(5005);
 
         scene.getStylesheets().add(styleFolder.toExternalForm());
         stage.setScene(scene);
@@ -75,7 +67,7 @@ public class App extends Application {
     }
 
     public static void main(String[] args) throws SQLException {
-        sqlController = new SQLiteConnectionsPool();
+        sqlController = new SQLiteConnectionPool();
         sqlController.addNewConnection("jmdict",
                 "/Users/ppogorelov/Python/PycharmProjects/mpv-japanese-sub-assistent/database/test.db");
 

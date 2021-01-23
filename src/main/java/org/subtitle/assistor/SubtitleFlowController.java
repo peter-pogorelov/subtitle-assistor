@@ -14,7 +14,8 @@ public class SubtitleFlowController implements UDPSubscriber {
 
     @FXML public void onMouseClicked(MouseEvent arg0) throws IOException {
         String selectedItem = (String) subtitleList.getSelectionModel().getSelectedItem();
-        App.openInvestigationWindow(selectedItem);
+        if(selectedItem != null && !selectedItem.isEmpty())
+            App.openInvestigationWindow(selectedItem);
     }
 
     @Override

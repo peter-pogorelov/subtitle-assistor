@@ -8,14 +8,14 @@ import java.net.InetAddress;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UDPUTF8Server implements Runnable{
+public class UDPServer implements Runnable{
     private boolean isRunning;
     private List<UDPSubscriber> subscribers;
     private DatagramSocket socket;
     private byte[] buf;
 
 
-    public UDPUTF8Server(int port) throws java.net.SocketException{
+    public UDPServer(int port) throws java.net.SocketException{
         this.socket = new DatagramSocket(port);
         this.subscribers = new LinkedList();
     }

@@ -4,10 +4,10 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SQLiteConnectionsPool {
+public class SQLiteConnectionPool {
     Map<String, SQLiteConnection> openConnections;
 
-    public SQLiteConnectionsPool(){
+    public SQLiteConnectionPool(){
         openConnections = new HashMap<String, SQLiteConnection>();
     }
 
