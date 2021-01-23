@@ -53,30 +53,4 @@ public abstract class BaseJ2EDictionary implements WordDictionary {
     public List<String> getColumns() {
         return this.columnOrder;
     }
-
-    @Override
-    public List<TableColumn> getTableColumnsFX() {
-        List<TableColumn> columnList = new LinkedList<>();
-
-        for(String columnName : this.getColumns()){
-            TableColumn column = new TableColumn<Map, String>(columnName);
-
-            column.setCellValueFactory(
-                    cellDataFeatures ->
-                            new ReadOnlyStringWrapper(
-                                    (String)((TableColumn.CellDataFeatures<Map, String>)cellDataFeatures)
-                                            .getValue().get(columnName)
-                            )
-            );
-
-            columnList.add(column);
-        }
-
-        return columnList;
-    }
-
-    @Override
-    public ObservableList getTableDataFX(List<Map<String, String>> searchResult){
-        return FXCollections.observableList(searchResult);
-    }
 }

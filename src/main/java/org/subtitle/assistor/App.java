@@ -6,11 +6,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.sql.SQLException;
+import java.util.ServiceLoader;
 
+import org.subtitle.assistor.dictionary.WordDictionary;
 import org.subtitle.assistor.dictionary.jap2eng.JMDict;
+import org.subtitle.assistor.sql.SQLConnection;
 import org.subtitle.assistor.sql.SQLiteConnectionsPool;
 import org.subtitle.assistor.tokenize.JapaneseTokenizer;
 import org.subtitle.assistor.udp.UDPController;
@@ -28,6 +36,10 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         App.openSubtitleFlowWindow(stage);
+    }
+
+    protected static void openLanguageSelectionWindow(){
+
     }
 
     protected static void openSubtitleFlowWindow(Stage stage) throws IOException {
@@ -57,7 +69,6 @@ public class App extends Application {
         stage.setTitle("Analysis");
         stage.show();
 
-
         ((SubtitleAnalyzeController)fxmlLoader.getController()).init(
                 subtitle, new JapaneseTokenizer(), new JMDict(sqlController.getConnection("jmdict"))
         );
@@ -67,6 +78,7 @@ public class App extends Application {
         sqlController = new SQLiteConnectionsPool();
         sqlController.addNewConnection("jmdict",
                 "/Users/ppogorelov/Python/PycharmProjects/mpv-japanese-sub-assistent/database/test.db");
+
 
         launch();
     }

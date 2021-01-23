@@ -1,11 +1,16 @@
 package org.subtitle.assistor;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.IndexRange;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.skin.TextAreaSkin;
@@ -71,13 +76,42 @@ public class SubtitleAnalyzeController {
     @FXML
     private void lookupTranslation(){
         List<Map<String, String>> searchResult = this.dictionary.fromBaseLanguage(this.choosenWord);
+        this.translationTable.getColumns().addAll(
+                SubtitleAnalyzeController.getTableColumnsFX(this.dictionary.getColumns())
+        );
 
-        this.translationTable.getColumns().addAll(this.dictionary.getTableColumnsFX());
-        this.translationTable.setItems(this.dictionary.getTableDataFX(searchResult));
+        if(searchResult != null) {
+            this.translationTable.setItems(SubtitleAnalyzeController.getTableDataFX(searchResult));
+        }
     }
 
     @FXML
     private void switchToPrimary() throws IOException {
         //App.setRoot("primary");
+    }
+
+    private static List<TableColumn> getTableColumnsFX(List<String> columnNames) {
+        List<TableColumn> columnList = new LinkedList<>();
+
+        for(String columnName : columnNames){
+            TableColumn column = new TableColumn<Map, String>(columnName);
+
+            column.setCellValueFactory(
+                    cellDataFeatures ->
+                            new ReadOnlyStringWrapper(
+                                    (String)((TableColumn.CellDataFeatures<Map, String>)cellDataFeatures)
+                                            .getValue().get(columnName)
+                            )
+            );
+
+            columnList.add(column);
+        }
+
+        return columnList;
+    }
+
+
+    private static ObservableList getTableDataFX(List<Map<String, String>> searchResult){
+        return FXCollections.observableList(searchResult);
     }
 }

@@ -1,4 +1,4 @@
-module org.example {
+module org.subtitle.assistor {
     requires javafx.controls;
     requires javafx.fxml;
     requires kuromoji;

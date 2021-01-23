@@ -10,7 +10,4 @@ public interface WordDictionary {
 
     public abstract List<Map<String, String>> fromBaseLanguage(String word);
     public abstract List<Map<String, String>> fromRefLanguage(String word);
-
-    public abstract List<TableColumn> getTableColumnsFX();
-    public abstract ObservableList getTableDataFX(List<Map<String, String>> searchResult);
 }
