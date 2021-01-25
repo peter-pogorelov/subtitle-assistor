@@ -11,7 +11,9 @@
     <children>
         <TextArea fx:id="subtitleEditField" layoutX="151.0" layoutY="53.0" maxHeight="80.0" minHeight="80.0" onMouseClicked="#onMouseReleased" wrapText="true"/>
         <Button text="translate" onAction="#lookupTranslation" />
-        <TableView fx:id="translationTable"/>
+        <TableView fx:id="translationTable">
+            <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
+        </TableView>
 
     </children>
     <padding>

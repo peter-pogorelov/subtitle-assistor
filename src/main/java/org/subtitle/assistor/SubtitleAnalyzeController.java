@@ -32,6 +32,8 @@ public class SubtitleAnalyzeController {
 
 
     public void init(String subtitle, BaseTokenizer tokenizer, WordDictionary dictionary){
+        this.translationTable.getSelectionModel().setCellSelectionEnabled(true);
+
         this.dictionary = dictionary;
         if(subtitle != null && !subtitle.isEmpty() && !subtitle.isBlank()) {
             this.tokens = tokenizer.tokenize(subtitle);
@@ -76,6 +78,7 @@ public class SubtitleAnalyzeController {
     @FXML
     private void lookupTranslation(){
         List<Map<String, String>> searchResult = this.dictionary.fromBaseLanguage(this.choosenWord);
+        this.translationTable.getColumns().clear();
         this.translationTable.getColumns().addAll(
                 SubtitleAnalyzeController.getTableColumnsFX(this.dictionary.getColumns())
         );

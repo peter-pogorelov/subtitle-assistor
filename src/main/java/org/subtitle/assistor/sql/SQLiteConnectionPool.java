@@ -21,8 +21,9 @@ public class SQLiteConnectionPool {
     }
 
     public void closeAllConnections(){
-        for(SQLiteConnection connection : this.openConnections.values()){
-            connection.closeConnection();
+        for(String connection : this.openConnections.keySet()){
+            System.out.println("Connection " + connection + " closed.");
+            this.getConnection(connection).closeConnection();
         }
     }
 }

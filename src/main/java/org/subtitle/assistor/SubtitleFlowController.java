@@ -20,7 +20,6 @@ public class SubtitleFlowController implements UDPSubscriber {
 
     @Override
     public void onCommandReceived(String command) {
-        System.out.println(command);
         Platform.runLater(new Runnable() {
             @Override
             public void run() {

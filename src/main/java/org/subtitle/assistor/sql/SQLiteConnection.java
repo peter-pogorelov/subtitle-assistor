@@ -5,6 +5,7 @@ import java.sql.*;
 public class SQLiteConnection implements SQLConnection {
     String pathToDatabase;
     Connection dbConnection;
+    Statement stmt;
 
     public SQLiteConnection(String pathToDatabase)
     {
@@ -21,12 +22,14 @@ public class SQLiteConnection implements SQLConnection {
         String url = "jdbc:sqlite:" + this.pathToDatabase;
         // create a connection to the database
         this.dbConnection = DriverManager.getConnection(url);
+        this.stmt = this.dbConnection.createStatement();
         System.out.println("Connection to SQLite has been established.");
     }
 
     public void closeConnection() {
         try {
             if (this.dbConnection != null) {
+                this.stmt.close();
                 this.dbConnection.close();
             }
         } catch (SQLException ex) {
@@ -38,10 +41,13 @@ public class SQLiteConnection implements SQLConnection {
         return this.dbConnection;
     }
 
+    public Statement getStatement() {
+        return this.stmt;
+    }
+
     @Override
     public ResultSet getQueryResult(String query) throws SQLException{
-        Statement stmt = this.dbConnection.createStatement();
-        ResultSet result = stmt.executeQuery(query);
+        ResultSet result = this.stmt.executeQuery(query);
 
         return result;
     }

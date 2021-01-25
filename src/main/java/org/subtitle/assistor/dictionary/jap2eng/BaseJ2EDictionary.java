@@ -19,8 +19,8 @@ public abstract class BaseJ2EDictionary implements WordDictionary {
     }
 
     private static int wordRemainderLength(String w1, String w2) {
-        Set l1 = new HashSet(Arrays.asList(w1.toCharArray()));
-        Set l2 = new HashSet(Arrays.asList(w2.toCharArray()));
+        Set l1 = w1.chars().mapToObj(e->(char)e).collect(Collectors.toSet());
+        Set l2 = w2.chars().mapToObj(e->(char)e).collect(Collectors.toSet());
 
         if (l1.size() == 0) {
             return l2.size();
@@ -32,20 +32,16 @@ public abstract class BaseJ2EDictionary implements WordDictionary {
 
     public static List<Map<String, String>> sortJapaneseSearchResult(String word, List<Map<String, String>> result){
         return result.stream().sorted(
-                (left, right) -> Math.min(
-                        wordRemainderLength(word, left.get("kanji")),
-                        wordRemainderLength(word, left.get("kana"))
-                ) - Math.min(
-                        wordRemainderLength(word, right.get("kanji")),
-                        wordRemainderLength(word, right.get("kana"))
-                )
+                Comparator.comparingInt(left -> Math.min(
+                    wordRemainderLength(word, left.get("kanji")),
+                    wordRemainderLength(word, left.get("kana"))
+                ))
         ).collect(Collectors.toList());
     }
 
     public static List<Map<String, String>> sortEnglishSearchResult(String word, List<Map<String, String>> result){
         return result.stream().sorted(
-                (left, right) ->
-                        wordRemainderLength(word, left.get("english")) - wordRemainderLength(word, right.get("english"))
+                Comparator.comparingInt(left -> wordRemainderLength(word, left.get("english")))
         ).collect(Collectors.toList());
     }
 

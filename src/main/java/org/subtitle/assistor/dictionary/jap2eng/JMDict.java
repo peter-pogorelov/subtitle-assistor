@@ -14,11 +14,11 @@ public class JMDict extends BaseJ2EDictionary {
     }
 
     private String makeJapaneseSearchQuery(String japaneseWord){
-        return "SELECT * FROM warehouse WHERE kana LIKE '%" + japaneseWord +  "%' OR kanji LIKE '%" + japaneseWord + "%'";
+        return "SELECT * FROM warehouse WHERE kana LIKE '%" + japaneseWord +  "%' OR kanji LIKE '%" + japaneseWord + "%' LIMIT 25";
     }
 
     private String makeEnglishSearchQuery(String englishWord){
-        return "SELECT * FROM warehouse WHERE gloss LIKE '" + englishWord +  "'";
+        return "SELECT * FROM warehouse WHERE gloss LIKE '" + englishWord +  "' LIMIT 25";
     }
 
     private List<Map<String, String>> queryDictionaryRecord(String query) throws SQLException{
@@ -27,10 +27,10 @@ public class JMDict extends BaseJ2EDictionary {
 
         while(result.next()){
             searchResult.add(new HashMap<String, String>() {{
-                put("kana", result.getString("kana"));
-                put("kanji", result.getString("kanji"));
-                put("english", result.getString("gloss"));
-                put("pos", result.getString("pos"));
+                put("kana", String.join("\n", result.getString("kana").split(",")));
+                put("kanji", String.join("\n", result.getString("kanji").split(",")));
+                put("english", String.join("\n", result.getString("gloss").split("\\^")));
+                put("pos", String.join("\n", result.getString("pos").split("\\^")));
             }});
         }
 
@@ -40,7 +40,9 @@ public class JMDict extends BaseJ2EDictionary {
     @Override
     public List<Map<String, String>> fromBaseLanguage(String word) {
         try {
-            return this.queryDictionaryRecord(this.makeJapaneseSearchQuery(word));
+            return JMDict.sortJapaneseSearchResult(
+                    word, this.queryDictionaryRecord(this.makeJapaneseSearchQuery(word))
+            );
         } catch (SQLException e){
             return null;
         }

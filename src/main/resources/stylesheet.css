@@ -12,6 +12,11 @@
     -fx-alignment: center;
 }
 
+.table-row-cell {
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 15pt;
+}
+
 /*
 .list-cell:even{
     -fx-background-color: white;
